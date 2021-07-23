@@ -57,8 +57,8 @@ JOINT_NAMES = (
 )
 
 INIT_ABDUCTION_ANGLE = 0
-INIT_HIP_ANGLE = 0.6
-INIT_KNEE_ANGLE = -1.2
+INIT_HIP_ANGLE = -0.6
+INIT_KNEE_ANGLE = 1.2
 
 # Note this matches the Laikago SDK/control convention, but is different from
 # URDF's internal joint angles which needs to be computed using the joint
