@@ -122,8 +122,8 @@ HIP_POSITIONS = collections.OrderedDict((
     (LEG_NAMES[3], (-0.21, 0.1157, 0)),
 ))
 
-MOTOR_ACTION_LOWER_LIMIT = np.array([-0.18,0.1,-2.3]*4)
-MOTOR_ACTION_UPPER_LIMIT = np.array([0.18,0.7,-0.6]*4)
+MOTOR_ACTION_LOWER_LIMIT = np.array([-0.18,-0.7,0.6]*4)
+MOTOR_ACTION_UPPER_LIMIT = np.array([0.18,-0.1,2.3]*4)
   
 # Add the gin constants to be used for gin binding in config. Append "PUPPER_"
 # for unique binding names.
