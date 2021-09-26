@@ -70,8 +70,8 @@ if load_a1:
   #p.setGravity(0,0,-9.8)
 
   A1_DEFAULT_ABDUCTION_ANGLE = 0
-  A1_DEFAULT_HIP_ANGLE = 0.9
-  A1_DEFAULT_KNEE_ANGLE = -1.8
+  A1_DEFAULT_HIP_ANGLE = 1.2
+  A1_DEFAULT_KNEE_ANGLE = -0.6
   NUM_LEGS = 4
   INIT_MOTOR_ANGLES = np.array([
       A1_DEFAULT_ABDUCTION_ANGLE,
@@ -128,8 +128,8 @@ jointIds=[]
 paramIds=[]          
                      
 ABDUCTION_ANGLE=0
-HIP_ANGLE=0.6
-KNEE_ANGLE=-1.2
+HIP_ANGLE=-0.6
+KNEE_ANGLE=1.2
 initial_joint_poses = [ABDUCTION_ANGLE,HIP_ANGLE,KNEE_ANGLE]*4
 joint_index=0
 
