@@ -108,7 +108,7 @@ Keyboard controls:
 
 ## Troubleshooting
 ### Redis connection not working / refused
-Manually set the redis address according to the address used by ray. See the image below to see how to specify `--redis_address` using the output of `ray start --head`.d
+Manually set the redis address according to the address used by ray. See the image below to see how to specify `--redis_address` using the output of `ray start --head`.
 ![Image](/assets/images/redis_address.png)
 ### Freezes after connecting to Ray cluster
 Likely an issue where pybullet's shared memory is corrupted. To fix, restart your computer. In the future avoid using control-z to stop processes. It doesn't release the memory and keeps the background around in the background, interfering with future training runs. Read for [this](https://coderwall.com/p/niiijg/how-to-kill-background-or-suspended-shell-job) to how to kill suspended jobs.
