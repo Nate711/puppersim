@@ -11,7 +11,7 @@ from pybullet_envs.minitaur.envs_v2.tasks import task_interface
 from pybullet_envs.minitaur.envs_v2.tasks import task_utils
 from pybullet_envs.minitaur.envs_v2.tasks import terminal_conditions
 from pybullet_envs.minitaur.envs_v2.utilities import env_utils_v2 as env_utils
-
+from puppersim import pupper_contact_utils
 
 @gin.configurable
 class SimpleForwardTask(task_interface.Task):
@@ -25,6 +25,8 @@ class SimpleForwardTask(task_interface.Task):
                clip_velocity=None,
                energy_penalty_coef=0.0,
                torque_penalty_coef=0.0,
+               contact_penalty_coef=0.0,
+               existence_reward_coef=0.0,
                min_com_height=None,
                weight_action_accel=None):
     """Initializes the task.
@@ -37,6 +39,8 @@ class SimpleForwardTask(task_interface.Task):
       clip_velocity: if not None, we will clip the velocity with this value.
       energy_penalty_coef: Coefficient for the energy penalty that will be added
         to the reward. 0 by default.
+      torque_penalty_coef: Coeffocient for torque^2 penalty. 0 by default.
+      contact_penalty_coef: Coefficient for non-foot contact penalty. 0 by default.
       min_com_height: Minimum height for the center of mass of the robot that
         will be used to terminate the task. This is used to obtain task specific
         gaits and set by the config or gin files based on the task and robot.
@@ -55,6 +59,8 @@ class SimpleForwardTask(task_interface.Task):
     self._min_com_height = min_com_height
     self._energy_penalty_coef = energy_penalty_coef
     self._torque_penalty_coef = torque_penalty_coef
+    self._contact_penalty_coef = contact_penalty_coef
+    self._existence_reward_coef = existence_reward_coef
     self._env = None
     self._step_count = 0
     if energy_penalty_coef < 0:
@@ -122,8 +128,16 @@ class SimpleForwardTask(task_interface.Task):
           self._env.robot.motor_torques, self._env.robot.motor_torques)
       reward += torque_reward
 
+    if self._contact_penalty_coef > 0:
+      contact_penalty = -self._contact_penalty_coef * pupper_contact_utils.number_non_foot_contacts(self._env)
+      reward += contact_penalty
+
+    if self._existence_reward_coef > 0:
+      reward += self._existence_reward_coef
+
     # print("Reward.", "Timestamp:", round(env.robot.GetTimeSinceReset(), 3),
-    #       "Velocity:", round(velocity, 4), "Torque:", round(torque_reward, 4))
+    #       "Velocity:", round(velocity, 4), "Torque:", round(torque_reward, 4),
+    #       "Contact: ", round(contact_penalty, 4))
     return reward * self._weight
 
   def done(self, env):

@@ -37,7 +37,11 @@ imu_sensor.IMUSensor.upper_bound = [6.28318548203, 6.28318548203,
                                        62.8318554688, 62.8318554688]
 
 # We use the default confirugration for MotorAngleSensor, which reads limits from the robot.
+<<<<<<< HEAD
 SENSORS = [@motor_angle_sensor.MotorAngleSensor(), @imu_sensor.IMUSensor()]
+=======
+SENSORS = [@imu_sensor.IMUSensor(), @motor_angle_sensor.MotorAngleSensor()]
+>>>>>>> 4622ed9 (add contact and existance rewards)
 locomotion_gym_config.SimulationParameters.sim_time_step_s = %SIM_TIME_STEP
 locomotion_gym_config.SimulationParameters.num_action_repeat = %NUM_ACTION_REPEAT
 locomotion_gym_config.SimulationParameters.enable_rendering = False
@@ -51,7 +55,7 @@ locomotion_gym_env.LocomotionGymEnv.gym_config = @locomotion_gym_config.Locomoti
 # locomotion_gym_env.LocomotionGymEnv.scene = None
 locomotion_gym_env.LocomotionGymEnv.scene = @pupper_randomized_ground.BumpyScene()
 
-pupper_randomized_ground.BumpyScene.lateral_friction=1.8
+pupper_randomized_ground.BumpyScene.lateral_friction=1.5
 pupper_randomized_ground.BumpyScene.height_perturbation_range=0.03
 
 
@@ -69,6 +73,7 @@ locomotion_gym_env.LocomotionGymEnv.robot_class = @pupper_v2.Pupper
 # Specify the task.
 # Have to add LastAction sensor before using
 # pupper_locomotion_task.SimpleForwardTask.weight_action_accel = 0.01
+<<<<<<< HEAD
 # pupper_locomotion_task.SimpleForwardTask.clip_velocity = 0.0025 # No reward past 0.25 m/s
 # pupper_locomotion_task.SimpleForwardTask.energy_penalty_coef = 0.0
 # pupper_locomotion_task.SimpleForwardTask.torque_penalty_coef = 0.0001
@@ -78,6 +83,15 @@ locomotion_gym_env.LocomotionGymEnv.robot_class = @pupper_v2.Pupper
 
 speed_task.SpeedRewardTask.min_com_height = 0.0
 locomotion_gym_env.LocomotionGymEnv.task = @speed_task.SpeedRewardTask()
+=======
+pupper_locomotion_task.SimpleForwardTask.clip_velocity = 0.0010 # No reward past 0.10 m/s
+pupper_locomotion_task.SimpleForwardTask.energy_penalty_coef = 0.0
+pupper_locomotion_task.SimpleForwardTask.torque_penalty_coef = 0.0010
+pupper_locomotion_task.SimpleForwardTask.contact_penalty_coef = 0.0005
+pupper_locomotion_task.SimpleForwardTask.existence_reward_coef = 0.0100
+locomotion_gym_env.LocomotionGymEnv.task = @pupper_locomotion_task.SimpleForwardTask()
+pupper_locomotion_task.SimpleForwardTask.terminal_condition = @pupper_terminal_conditions.default_terminal_condition_for_pupper
+>>>>>>> 4622ed9 (add contact and existance rewards)
 
 # Specify the motor model parameters. Notice that we don't need to specify the control mode or motor limits here.
 pupper_motor_model.PupperMotorModel.kp = 4.0 # [Nm/rad]
@@ -92,13 +106,13 @@ pupper_v2.Pupper.sensors = %SENSORS
 
 pmtg_wrapper_env.PmtgWrapperEnv.action_filter_enable = True
 pmtg_wrapper_env.PmtgWrapperEnv.intensity_upper_bound = 1.0
-pmtg_wrapper_env.PmtgWrapperEnv.max_delta_time = 4.0
-pmtg_wrapper_env.PmtgWrapperEnv.min_delta_time = 2.0
-pmtg_wrapper_env.PmtgWrapperEnv.residual_range = 0.5
+pmtg_wrapper_env.PmtgWrapperEnv.max_delta_time = 2.0
+pmtg_wrapper_env.PmtgWrapperEnv.min_delta_time = 0.5
+pmtg_wrapper_env.PmtgWrapperEnv.residual_range = 1.0
 pmtg_wrapper_env.PmtgWrapperEnv.integrator_coupling_mode = "all coupled"
 pmtg_wrapper_env.PmtgWrapperEnv.walk_height_coupling_mode = "all coupled"
 pmtg_wrapper_env.PmtgWrapperEnv.variable_swing_stance_ratio = 1
-pmtg_wrapper_env.PmtgWrapperEnv.init_gait = "trot"
+pmtg_wrapper_env.PmtgWrapperEnv.init_gait = "walk"
 
 env_loader.load.wrapper_classes = [
     @pmtg_wrapper_env.PmtgWrapperEnv,
